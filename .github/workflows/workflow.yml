@@ -25,12 +25,5 @@ jobs:
           flake8 src --count --max-complexity=10 --max-line-length=127 --statistics
       - name: Run unit tests with nose
         run: nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
-      - name: Install CodeClimate CLI
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-      - name: Upload test coverage to CodeClimate
-        run: |
-          ./cc-test-reporter before-build
-          ./cc-test-reporter format-coverage -t coverage.py -o codeclimate.json -r .coverage.xml
-          ./cc-test-reporter upload-coverage -i codeclimate.json
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@master
