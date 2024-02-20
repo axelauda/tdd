@@ -26,7 +26,7 @@ jobs:
           node-version: '14'
       # Authenticate with Snyk
       - name: Snyk Authentication
-        run: snyk auth ${{ secrets.SNYK_TOKEN }} # Assuming you've added your Snyk token as a secret
+        run: npx snyk auth ${{ secrets.SNYK_TOKEN }} # Assuming you've added your Snyk token as a secret
       # Add a step for vulnerability scanning using Snyk
       - name: Vulnerability scanning with Snyk
         env:
