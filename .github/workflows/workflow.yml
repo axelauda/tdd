@@ -40,6 +40,8 @@ jobs:
           python-version: '3.9'
       - name: Install Dependabot
         run: curl -sSL -o dependabot.sh https://api.github.com/repos/dependabot/dependabot-core/releases/latest | bash
+      - name: Grant execute permissions
+        run: chmod +x dependabot.sh
       - name: Run Dependabot
         run: |
           ./dependabot.sh
