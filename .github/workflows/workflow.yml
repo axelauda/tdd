@@ -6,6 +6,8 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: "0 0 * * *" # Schedule Dependabot to run daily
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +27,19 @@ jobs:
           flake8 src --count --max-complexity=10 --max-line-length=127 --statistics
       - name: Run unit tests with nose
         run: nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
+
+  dependabot:
+    runs-on: ubuntu-latest
+    name: Dependabot
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install Dependabot
+        run: curl -sSL -o dependabot.sh https://api.github.com/repos/dependabot/dependabot-core/releases/latest | bash
+      - name: Run Dependabot
+        run: |
+          ./dependabot.sh
