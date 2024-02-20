@@ -5,5 +5,4 @@ pinocchio
 coverage
 pylint
 flake8
-nodejs
-npm
+
