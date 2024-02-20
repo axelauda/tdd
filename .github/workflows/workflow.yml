@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.9-slim
     steps:
+      - name: Install utilities
+        run: |
+          apt-get update -yq &&
+          apt-get install -yq wget sudo
+      
       - name: Checkout
         uses: actions/checkout@v4
       
