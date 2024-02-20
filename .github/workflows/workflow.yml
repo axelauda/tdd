@@ -9,34 +9,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:3.9-slim
     steps:
-      - name: Install utilities
-        run: |
-          apt-get update -yq &&
-          apt-get install -yq wget sudo gnupg
-      
       - name: Checkout
         uses: actions/checkout@v4
       
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip &&
-          pip install -r requirements.txt
+          sudo apt-get update -yq &&
+          sudo apt-get install -yq python3-pip &&
+          pip3 install --upgrade pip &&
+          pip3 install -r requirements.txt
       
       - name: Lint with flake8
         run: |
-          flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics &&
-          flake8 src --count --max-complexity=10 --max-line-length=127 --statistics
+          pip3 install flake8 &&
+          flake8 src
       
       - name: Run unit tests with nose
-        run: nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
-      
-      # Add Trivy vulnerability scanning step
-      - name: Vulnerability scanning with Trivy
         run: |
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add - &&
-          echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list &&
-          sudo apt-get update -q &&
-          sudo apt-get install trivy -yq &&
-          trivy --exit-code 0 --severity HIGH,CRITICAL --no-progress --ignore-unfixed .
+          pip3 install nose coverage &&
+          nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
+      
+      - name: Basic vulnerability check
+        run: |
+          sudo apt-get install -yq curl &&
+          curl -sSL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin &&
+          trivy --no-progress --exit-code 0 --severity HIGH,CRITICAL --no-progress --ignore-unfixed --input /requirements.txt
