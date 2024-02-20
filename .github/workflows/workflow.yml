@@ -14,7 +14,7 @@ jobs:
       - name: Install utilities
         run: |
           apt-get update -yq &&
-          apt-get install -yq wget sudo
+          apt-get install -yq wget sudo gnupg
       
       - name: Checkout
         uses: actions/checkout@v4
