@@ -19,3 +19,8 @@ jobs:
         run: flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics | flake8 src --count --max-complexity=10 --max-line-length=127 --statistics
       - name: Run unit tests with nose
         run: nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
+      # Add a step for vulnerability scanning using Snyk
+      - name: Vulnerability scanning with Snyk
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} # Assuming you've added your Snyk token as a secret
+        run: npx snyk test --all-projects
