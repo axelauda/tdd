@@ -27,5 +27,5 @@ jobs:
       # Add a step for vulnerability scanning using Snyk
       - name: Vulnerability scanning with Snyk
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} # Assuming you've added your Snyk token as a secret
-        run: npx snyk test --all-projects
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: npm install --unsafe-perm -g snyk && npx snyk test --all-projects
