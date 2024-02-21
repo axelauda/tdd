@@ -3,4 +3,5 @@ Flask
 nose
 pinocchio
 coverage
+flake8
 pylint
