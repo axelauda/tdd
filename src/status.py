@@ -1,3 +1,5 @@
+"""File that contains the status codes returned and checked by counter.py functions."""
+
 # HTTP status codes
 HTTP_200_OK = 200
 HTTP_201_CREATED = 201
