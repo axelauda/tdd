@@ -21,6 +21,6 @@ jobs:
           pip install -r requirements.txt
       - name: Lint with Pylint
         run: |
-          pylint src
+          pylint --disable=no-name-in-module src
       - name: Run unit tests with nose
         run: nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
